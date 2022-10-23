@@ -1,19 +1,19 @@
 <div id="active-page" data-anchor-id="express-page"></div>
 <h2 id="express">Express</h2>
 <p>
-    TODO: introduction
+    Express is a a popular web framework for quick and easy API creation.
 </p>
 
 <h3 id="add-dependency">Adding Express to dependencies</h3>
 <p>
     To use Express, like any other package,
     you need to add it to your project dependencies in package.json and install it.
-    Nodes package manager can do both for you by issuing <code>$ npm install Express</code>
+    Nodes package manager can do both for you by issuing <code>$ npm install express</code>
     from any project folder. You could also add it to dependencies by hand and then run
     <code>$ npm install</code>, which will install any missing dependencies listed in package.json.
     That's typically the first thing you would do if you are cloning a node.js based project with git.
     If you want to use npm to install another version than the latest you can do
-    <code>$ npm install Express@4.17.2</code> to install version 4.17.2.
+    <code>$ npm install express@4.17.2</code> to install version 4.17.2.
 </p>
 
 <h3 id="serve-static">Serving static files</h3>
@@ -30,7 +30,7 @@ const app = express();
 app.use(express.static("public"));
 // another middleware function handling GET requests for "/"
 app.get("/", (req, res) => {
-    res.send("<h1>Welcome</h1>");
+    res.send("Welcome");
 });
 // finally listen for incoming connections on port 8080
 const server = app.listen(8080);
@@ -39,7 +39,7 @@ const server = app.listen(8080);
     The middleware function is handling GET requests for the files in the public folder.
     If the requested file is non-existant it is passed on to the next middleware function,
     handling GET requests to the root.
-    Finally, if the request is not for the root, the server returns 404 (Not found)
+    Finally, if the request is not for the root, the server returns an error.
 </p>
 <p class="mb-1">
     To use express as a commonjs module, replace the first two code statements with
@@ -51,9 +51,14 @@ const server = app.listen(8080);
 </p>
 
 <h3 id="redirect">Redirecting</h3>
-<p>
-    TODO
-</p>
+<pre class="language-javascript"><code class="language-javascript">import express from "express";
+ const app = express();        
+ // This endpoint will redirect the browser to duckduckgo.com (HTTP 302)
+ app.get("/redirect-to-search-engine", (req, res) => {
+     res.redirect("https://duckduckgo.com");
+ });
+ const server = app.listen(8080);
+ </code></pre>
 
 <h3 id="rest-api">REST API</h3>
 <p>
@@ -94,7 +99,7 @@ app.listen(8888);
     while it is still not possible to overwrite the <code>id</code> (lines with * comment).
     This is achieved by setting the id AFTER the parameters from <code>req.body</code>. 
 </p>
-<p>
-    Security notice: you should always validate incoming json, which are not done here for simplicity.
+<p class="alert alert-danger">
+    <strong>Security notice:</strong> you should always validate incoming json, which are not done here for simplicity.
     A popular validation package, like for example <a href="https://joi.dev">Joi</a> can help doing that with validation schemas.
 </p>

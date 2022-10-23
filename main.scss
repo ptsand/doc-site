@@ -2,20 +2,28 @@
 @import "node_modules/bootstrap/scss/functions";
 
 // Variable overrides second
-$primary: #ba86fc;
-$secondary: #00dac6;
-$enable-shadows: true;
-$enable-gradients: true;
+
 $gray-800: #1d1d1d;
 $gray-900: #121212;
-
 $body-bg: $gray-900;
 $body-color: #e2e2e2;
 
+$primary:       #ba86fc;
+//$secondary:     $gray-600 !default;
+//$success:       $green !default;
+//$info:          $cyan !default;
+//$warning:       $yellow !default;
+// $danger:        #ff0015;
+//$light:         $gray-100 !default;
+$dark:          $gray-900;
+
+// make alerts look reasonable with dark mode colors
+$alert-bg-scale:                90%;
+$alert-color-scale:             80%;
+
+// $enable-gradients: true;
 $font-size-base: 1.1rem;
-
 $headings-margin-bottom: 1em;
-
 
 // Required Bootstrap imports
 @import "node_modules/bootstrap/scss/variables";
@@ -52,12 +60,11 @@ $headings-margin-bottom: 1em;
 
 .navbar {
     @extend .surface;
-    // --bs-navbar-color: #1d1d1d; // $gray-800;
     background-image: none;
 }
 
 main {
-    background-color: $gray-800;
+    @extend .surface;
     h3 { // TODO: adjust
         margin: 2rem 0 1rem 0;
     }
@@ -94,4 +101,8 @@ code[class*=language-], pre[class*=language-] {
 }
 .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
     color: hsla(75, 69.95%, 60.06%, 0.70);
+}
+
+.alert {
+    border: none;
 }
