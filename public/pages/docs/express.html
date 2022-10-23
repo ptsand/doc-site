@@ -1,0 +1,108 @@
+<div id="active-page" data-anchor-id="express-page"></div>
+<h2 id="express">Express</h2>
+<p>
+    TODO: introduction
+</p>
+
+<h3 id="add-dependency">Adding Express to dependencies</h3>
+<p>
+    To use Express, like any other package,
+    you need to add it to your project dependencies in package.json and install it.
+    Nodes package manager can do both for you by issuing <code>$ npm install Express</code>
+    from any project folder. You could also add it to dependencies by hand and then run
+    <code>$ npm install</code>, which will install any missing dependencies listed in package.json.
+    That's typically the first thing you would do if you are cloning a node.js based project with git.
+    If you want to use npm to install another version than the latest you can do
+    <code>$ npm install Express@4.17.2</code> to install version 4.17.2.
+</p>
+
+<h3 id="serve-static">Serving static files</h3>
+<p>
+    Serve files from a folder called public, while handling GET requests to the root,
+    using ES modules syntax, like this:
+</p>
+<pre class="language-javascript"><code class="language-javascript">import express from "express";
+// instantiate express
+const app = express();        
+// add first middleware function
+// (be careful not to expose sensitive information
+// like .env files which could contain passwords)
+app.use(express.static("public"));
+// another middleware function handling GET requests for "/"
+app.get("/", (req, res) => {
+    res.send("<h1>Welcome</h1>");
+});
+// finally listen for incoming connections on port 8080
+const server = app.listen(8080);
+</code></pre>
+<p>
+    The middleware function is handling GET requests for the files in the public folder.
+    If the requested file is non-existant it is passed on to the next middleware function,
+    handling GET requests to the root.
+    Finally, if the request is not for the root, the server returns 404 (Not found)
+</p>
+<p class="mb-1">
+    To use express as a commonjs module, replace the first two code statements with
+</p>
+<code>const app = require('express')();</code>
+<p class="mt-3">
+    In contrast to ES modules, commonjs modules are dynamically loaded,
+    hence you can require and instantiate in one line.
+</p>
+
+<h3 id="redirect">Redirecting</h3>
+<p>
+    TODO
+</p>
+
+<h3 id="rest-api">REST API</h3>
+<p>
+    Example of a (partial) REST API for managing dogs:
+</p>
+<pre class="language-javascript"><code class="language-javascript">import express from "express";
+const app = express();
+const dogs = [
+    { id: 1, breed: "Bulldog", age: 5 },
+    { id: 2, breed: "Great dane", age: 2 },
+];
+
+app.use(express.json()); // add middleware to parse json
+
+let currentId = dogs[dogs.length-1].id;
+
+// endpoint to handle put requests
+app.put("/api/dogs/:id([0-9]+)", (req, res) => {
+    const id = Number(req.params.id);
+    // look for the dog in dogs
+    const index = dogs.findIndex(dog => dog.id === id);
+    if (index !== -1) {
+        // existant dog -> update
+        dogs[index] = { ...req.body, id: id }; // *
+        res.json({message: "dog successfully edited",  data: dogs[index]});
+    } else {
+        // nonexistant dog -> create
+        const dog = { ...req.body, id: ++currentId}; // *
+        dogs.push(dog);
+        res.status(201).json({message: "Dog successfully created", data: dog});
+    }
+});
+app.listen(8888);
+</code></pre>
+<p>
+    Now put requests can be handled, implementing full CRUD is left as an exercise to the reader.
+    The spread operator is used as a concise way to create a new dog object from the request body,
+    while it is still not possible to overwrite the <code>id</code> (lines with * comment).
+    This is achieved by setting the id AFTER the parameters from <code>req.body</code>. 
+</p>
+<p>
+    Security notice: you should always validate incoming json, which are not done here for simplicity.
+    A popular validation package, like for example <a href="https://joi.dev">Joi</a> can help doing that with validation schemas.
+</p>
+- Can create a server instance with Express from memory.
+- Understands how to send data with GET requests over HTTP and knows how to do it in Express.
+- Understands the security need for serving static file and can do it in Express.
+- Can serve HTML with both common js and ES module type syntax.
+- Can create a CRUDable REST API.
+- Can redirect in Express.
+- understands the difference beetween clientside and serverside redirection
+- Can setup Express Routers by heart.

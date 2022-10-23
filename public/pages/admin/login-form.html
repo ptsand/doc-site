@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center" style="height: 80vh;">
+    <form action="/admin/authenticate" method="post" class="p-4 mx-auto text-center border rounded" style="min-width: 30vw;">
+        <h3 class="mb-3 mt-0">Enter your credentials</h3>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="username" id="username" value="admin">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="password" id="password">
+            <label for="password">Password</label>
+        </div>
+        %%ERROR_MSG%%
+        <div>
+            <button id="btn-login" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>

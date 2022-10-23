@@ -1,0 +1,97 @@
+// Functions first
+@import "node_modules/bootstrap/scss/functions";
+
+// Variable overrides second
+$primary: #ba86fc;
+$secondary: #00dac6;
+$enable-shadows: true;
+$enable-gradients: true;
+$gray-800: #1d1d1d;
+$gray-900: #121212;
+
+$body-bg: $gray-900;
+$body-color: #e2e2e2;
+
+$font-size-base: 1.1rem;
+
+$headings-margin-bottom: 1em;
+
+
+// Required Bootstrap imports
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/maps";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/root";
+
+// Optional components
+@import "node_modules/bootstrap/scss/utilities";
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/containers";
+@import "node_modules/bootstrap/scss/grid";
+@import "node_modules/bootstrap/scss/helpers";
+@import "node_modules/bootstrap/scss/utilities/api";
+@import "node_modules/bootstrap/scss/navbar";
+@import "node_modules/bootstrap/scss/nav";
+@import "node_modules/bootstrap/scss/offcanvas";
+@import "node_modules/bootstrap/scss/buttons";
+@import "node_modules/bootstrap/scss/close";
+@import "node_modules/bootstrap/scss/carousel";
+@import "node_modules/bootstrap/scss/forms";
+@import "node_modules/bootstrap/scss/alert";
+
+
+@import "prism";
+
+.background {
+    background-color: $gray-900;
+}
+
+.surface {
+    background-color: $gray-800;
+}
+
+.navbar {
+    @extend .surface;
+    // --bs-navbar-color: #1d1d1d; // $gray-800;
+    background-image: none;
+}
+
+main {
+    background-color: $gray-800;
+    h3 { // TODO: adjust
+        margin: 2rem 0 1rem 0;
+    }
+}
+
+.carousel-caption {
+    bottom: 40%;
+}
+
+.carousel-overlay {
+    @extend .bg-white;
+    opacity: 0.07;
+}
+
+.sidebar {
+    height: calc(100vh - 4rem);
+    position: sticky;
+    top: 4rem;
+}
+
+.sidebar-page .content-width{
+    @extend .col-lg-8, .col-xl-9;
+}
+
+html {
+    scroll-padding-top: 5rem; // Do not hide headings under the sticky header
+}
+// Override some prism css to match the dark layout
+code[class*=language-], pre[class*=language-] {
+    border: none;
+    background-color: #121212;
+    box-shadow: none;
+    color: $gray-400;
+}
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted {
+    color: hsla(75, 69.95%, 60.06%, 0.70);
+}

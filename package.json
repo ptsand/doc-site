@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "scripts": {
+    "compile-css": "sass --watch --source-map --embed-sources --no-error-css main.scss:public/main.css",
+    "nodemon": "nodemon app.js",
+    "start-dev": "npm-run-all --parallel nodemon compile-css",
+    "start-prod": "node app.js"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.2.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.55.0"
+  }
+}

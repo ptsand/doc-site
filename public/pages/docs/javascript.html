@@ -1,0 +1,104 @@
+<div id="active-page" data-anchor-id="javascript-page"></div>
+<h2 id="javascript">JavaScript</h2>
+<p>
+    Client-side JavaScript is used almost everywhere on the web and with Node.js, you can use it in the backend too.
+    Keep on reading to learn some JavaScript basics.
+</p>
+<h3 id="data-types">Data types</h3>
+<p>
+    Javascript is weakly typed, ie. you can do things like this:
+</p>
+<pre class="language-javascript"><code class="language-javascript">4 - true;               //  3
+false + " string";      // "false string"
+8 + '8';                // '88'
+8 * '8';                //  64
+</code></pre>
+<p>
+    The above expressions are evaluated with type coersion.
+    For each expression, the type of one operand is implicitly converted to the type of the other.
+    Look at the following expressions:
+</p>
+<pre class="language-javascript"><code class="language-javascript">1 == true;               // true
+1 === true;              // false
+8 == '8';                // true
+8 === '8';               // false
+</code></pre>
+<p>
+    If you are not using three equal signs JavaScript is doing doing type coersion again, while evaluating the expressions. 
+    To avoid making mistakes, it is preferred to do the type conversion yourself like this:
+</p>
+<pre class="language-javascript"><code class="language-javascript">Boolean(1) === true;      // true
+8 === Number('8');        // true
+</code></pre>
+<h3 id="scoping">Scoping</h3>
+<p>JavaScript has global, module, function, and block scope.
+    Any variable declared outside a module, function or a block is globally scoped and can be accessed from any context.
+    Declarations using 'let' and 'const' can have block scope and are prefered over the older 'var' declaration.
+    The 'var' declared variables does not work with block scope, which can be confusing.
+    For example:
+</p>
+<pre class="language-javascript"><code class="language-javascript">for (var i = 0; i < 2; i++){
+    console.log(i);
+}
+console.log(i);      // outputs 2
+</code></pre>
+<p>
+    The variable 'i' is visible outside the for loop, though it should only be visible inside the for loop block.
+    Using 'let' instead of 'var' with the above code would output a Reference Error, respecting blockscope.
+    In generel the 'const' declaration is preferred over 'let' if possible to save resources.
+    TODO: example with var hoisting and undefined initialization
+</p>
+<h3 id="functions">Functions</h3>
+<p>
+    In JavaScript parameters are passed by value, where a copy of the data is provided,
+    except for arrays and objects, where a reference to the actual data is passed, allowing the function to mess with the original data.
+    This is an important realization to avoid making unintended sideeffects.</p>
+<p>
+    Like variables declarations, functions are hoisted, allowing them to be called before they are defined:
+</p>
+<pre class="language-javascript"><code class="language-javascript">callMe(); // returns "thanks"
+function callMe() {
+    return "thanks";
+}
+</code></pre>
+<p>However, if function expressions are used this would not work:</p>
+<pre class="language-javascript"><code class="language-javascript">callMe(); // ReferenceError: callMe is not defined
+const callMe = function () {
+    return "thanks";
+}
+</code></pre>
+<h3 id="loop-methods">Loop methods</h3>
+<p>
+    The map, filter and reduce methods is a concise safer way to operate on array elements:
+</p>
+<pre class="language-javascript"><code class="language-javascript">const numbers = [2, 4, 6, 8, 10];
+const filteredMappedNumbers = numbers
+    .filter(number => number < 8)
+    .map(number => number * number);
+console.log(filteredMappedNumbers);  // [4, 16, 36]
+</code></pre>
+<p>
+    By substituting for loops with these methods from functional programming
+    you are getting improved readability, no side effects,
+    support for concurrency and seperation of concerns.
+    TODO: explain these benefits if time permits
+</p>
+<h3 id="fetch">Fetch API</h3>
+<p>
+    The fetch API provides a simpler way to fetch ressources asynchronously over HTTP by returning promises.
+    Example altering a user ressource with the PUT HTTP method:
+</p>
+<pre class="language-javascript"><code class="language-javascript">const user = await fetch("https://jsonplaceholder.typicode.com/users/1")
+            .then(res => res.json()); // Fetch a user (HTTP GET is default)
+user.name = "Altered name";
+const res = await fetch("https://jsonplaceholder.typicode.com/users/1",
+    {
+        method: "put",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(user)
+    });
+// res.status == 200
+</code></pre>

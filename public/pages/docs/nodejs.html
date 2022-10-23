@@ -1,0 +1,85 @@
+<div id="active-page" data-anchor-id="nodejs-page"></div>
+<h2 id="nodejs">NodeJS</h2>
+<p>
+    Node.js is an asynchronous event-driven JavaScript runtime.
+    Using an event loop, you do not have to wait for slow IO to complete.
+    Slower operations are delegated to faster lower level code or the OS,
+    while Node can continue traversing the event loop doing other stuff. 
+</p>
+
+<h3 id="get-started">Get started</h3>
+<p>Run this in your terminal:</p>
+<pre class="language-shell"><code class="language-shell">$ brew install node              # MacOS
+$ apt install nodejs             # Debian based linux
+$ choco install nodejs.install   # Windows, using chocolatey
+$ mkdir hello-world && cd hello-world
+$ echo "console.log('Hello World');" > app.js
+$ node app.js                    # Output: Hello World
+</code></pre>
+
+<h3 id="dependencies">Dependencies and scripts</h3>
+<p>
+    Project dependencies and scripts are managed with a file named package.json.
+    For example like this package.json:
+</p>
+<pre class="language-javascript"><code class="language-javascript">{
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "scripts": {
+    "compile-css": "sass --watch --source-map --embed-sources --no-error-css main.scss:public/main.css",
+    "nodemon": "nodemon app.js",
+    "start-dev": "npm-run-all --parallel nodemon compile-css",
+    "start-prod": "node app.js"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.2.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.55.0"
+  }
+}
+</code></pre>
+<p>
+    From top to bottom: 
+    This project uses ES modules (see below).
+    Depends on express for production.
+    Scripts to ease the development process
+    bootstrap, npm-run-all and sass for development.
+    Running a script is done with "npm run &lt;name&gt;"
+</p>
+
+<h3 id="modules">Importing/exporting modules</h3>
+<p>By default, commonjs modules is used, looks like this:</p>
+<pre class="language-javascript"><code class="language-javascript">// file: ./adder.js
+module.exports.add = (x, y) => x + y;
+
+// file: ./math.js
+const { add } = require("./adder");
+// Now the adder can be used
+</code></pre>
+<p>
+    However, the ES module syntax, which is the javascript standard is now fully supported by Node.js:
+</p>
+<pre class="language-javascript"><code class="language-javascript">// file: ./adder.js
+export const add = (x, y) => x + y;
+
+// file: ./math.js
+import { add } from "./adder.js"
+// Now the adder can be used
+</code></pre>
+<p>
+    ES modules has advantages over commonjs modules.
+    They are loaded asynchronously, supported in modern browsers, easier to read,
+    probably the future of JavaScript etc...
+</p>
+<h3 id="env-vars">Using environment variables</h3>
+<p>Setting an environment variable for the time the process is running:</p>
+<code>$ PORT=8888 myProcess</code>
+<p>
+    This works on MacOS and Linux, but not windows,
+    which can be solved by installing the cross-env package and then do:
+</p>
+<code>$ cross-env PORT=8888 myProcess</code>
+<p>Accessing an environment variable using 8080 as fallback, if no such variable exists:</p>
+<code>const PORT = process.env.PORT || 8080;</code>
